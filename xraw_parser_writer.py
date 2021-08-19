@@ -66,7 +66,7 @@ class XRawVolumeParser():
             self.remaining_bytes+=byte
             byte = self.file.read(1)
 
-    def parse(self):
+    def parse(self, use_lists=False):
         if self.data: return self.data
 
         self.read_header()
@@ -80,8 +80,12 @@ class XRawVolumeParser():
         self.data["depth"] = self.depth
         self.data["num_of_pallette_colors"] = self.num_of_pallette_colors
 
-        self.data["voxels"] = self.voxels.tolist()
-        self.data["palette"] = self.palette.tolist()
+        self.data["voxels"] = self.voxels
+        self.data["palette"] = self.palette
+
+        if use_lists:
+            self.data["voxels"] = self.data["voxels"].tolist()
+            self.data["palette"] = self.data["palette"].tolist()
 
         return self.data
 
